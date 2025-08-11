@@ -28,10 +28,12 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/farm_mana
 const authRoutes = require('./routes/auth');
 const supplierRoutes = require('./routes/suppliers');
 const inventoryRoutes = require('./routes/inventory');
+const pricingRoutes = require('./routes/pricing');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/inventory', inventoryRoutes);
+app.use('/api/pricing', pricingRoutes);
 
 // Basic route
 app.get('/', (req, res) => {

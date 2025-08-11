@@ -3,6 +3,7 @@ class Dashboard {
     this.currentSection = 'overview';
     this.supplierManager = null;
     this.inventoryManager = null; // Added
+    this.pricingManager = null; // Added
     this.init();
   }
 
@@ -81,7 +82,11 @@ class Dashboard {
         }
         break;
       case 'pricing':
-        // Initialize pricing manager when implemented
+        if (!this.pricingManager) {
+          this.pricingManager = new PricingManager();
+          // Make it globally accessible for debugging
+          window.pricingManager = this.pricingManager;
+        }
         break;
       case 'invoices':
         // Initialize invoice manager when implemented
