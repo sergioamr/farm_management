@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Management Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <i class="fas fa-seedling"></i>
+                    <h1>Farm Management</h1>
+                    <p>Sign in to your account</p>
+                </div>
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+                <div id="loginMessage" class="message"></div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard hidden">
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <i class="fas fa-seedling"></i>
+                    <h1>Farm Management</h1>
+                </div>
+                <div class="header-right">
+                    <span id="userInfo"></span>
+                    <button id="logoutBtn" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <aside class="sidebar">
+                    <nav class="sidebar-nav">
+                        <ul>
+                            <li class="nav-item">
+                                <a href="#overview" class="nav-link active" data-section="overview">
+                                    <i class="fas fa-tachometer-alt"></i> Overview
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#suppliers" class="nav-link" data-section="suppliers">
+                                    <i class="fas fa-truck"></i> Suppliers
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#inventory" class="nav-link" data-section="inventory">
+                                    <i class="fas fa-boxes"></i> Inventory
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#pricing" class="nav-link" data-section="pricing">
+                                    <i class="fas fa-tags"></i> Pricing
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#invoices" class="nav-link" data-section="invoices">
+                                    <i class="fas fa-file-invoice"></i> Invoices
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#orders" class="nav-link" data-section="orders">
+                                    <i class="fas fa-shopping-cart"></i> Orders
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#stock" class="nav-link" data-section="stock">
+                                    <i class="fas fa-warehouse"></i> Stock
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <main class="main-content">
+                    <div id="overview" class="dashboard-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h2>
+                            <p>Welcome to your farm management dashboard</p>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <i class="fas fa-truck"></i>
+                                <h3>Suppliers</h3>
+                                <p id="overviewSupplierCount">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-boxes"></i>
+                                <h3>Inventory Items</h3>
+                                <p id="overviewInventoryCount">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-file-invoice"></i>
+                                <h3>Invoices</h3>
+                                <p id="overviewInvoiceCount">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h3>Orders</h3>
+                                <p id="overviewOrderCount">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Suppliers Section -->
+                    <div id="suppliers" class="dashboard-section hidden">
+                      <div class="section-header">
+                        <h2><i class="fas fa-truck"></i> Supplier Management</h2>
+                        <p>Manage your farm suppliers, contacts, and business relationships</p>
+                      </div>
+
+                      <!-- Suppliers Table Container -->
+                      <div id="suppliersTableContainer">
+                        <!-- Stats Cards -->
+                        <div class="row mb-4">
+                          <div class="col-md-3">
+                            <div class="stat-card">
+                              <div class="stat-icon bg-primary">
+                                <i class="fas fa-truck"></i>
+                              </div>
+                              <div class="stat-content">
+                                <h3 id="supplierCount">0</h3>
+                                <p>Total Suppliers</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="stat-card">
+                              <div class="stat-icon bg-success">
+                                <i class="fas fa-check-circle"></i>
+                              </div>
+                              <div class="stat-content">
+                                <h3 id="activeSupplierCount">0</h3>
+                                <p>Active Suppliers</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="stat-card">
+                              <div class="stat-icon bg-warning">
+                                <i class="fas fa-star"></i>
+                              </div>
+                              <div class="stat-content">
+                                <h3 id="topRatedCount">0</h3>
+                                <p>Top Rated (4-5★)</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="stat-card">
+                              <div class="stat-icon bg-info">
+                                <i class="fas fa-chart-line"></i>
+                              </div>
+                              <div class="stat-content">
+                                <h3 id="businessTypesCount">0</h3>
+                                <p>Business Types</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Search and Filter Bar -->
+                        <div class="search-filter-bar mb-4">
+                          <div class="row align-items-center">
+                            <div class="col-md-4">
+                              <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="supplierSearch" placeholder="Search suppliers..." class="form-control">
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <select id="businessTypeFilter" class="form-select">
+                                <option value="">All Business Types</option>
+                                <option value="Seed Supplier">Seed Supplier</option>
+                                <option value="Fertilizer Supplier">Fertilizer Supplier</option>
+                                <option value="Equipment Supplier">Equipment Supplier</option>
+                                <option value="Chemical Supplier">Chemical Supplier</option>
+                                <option value="General Supplier">General Supplier</option>
+                                <option value="Other">Other</option>
+                              </select>
+                            </div>
+                            <div class="col-md-3">
+                              <select id="statusFilter" class="form-select">
+                                <option value="">All Status</option>
+                                <option value="true">Active Only</option>
+                                <option value="false">Inactive Only</option>
+                              </select>
+                            </div>
+                            <div class="col-md-2">
+                              <button id="addSupplierBtn" class="btn btn-primary w-100">
+                                <i class="fas fa-plus"></i> Add Supplier
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Suppliers Table -->
+                        <div class="table-responsive">
+                          <table class="table table-hover">
+                            <thead class="table-light">
+                              <tr>
+                                <th>Supplier</th>
+                                <th>Contact Person</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                                <th>Rating</th>
+                                <th>Location</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody id="suppliersTableBody">
+                              <!-- Suppliers will be loaded here -->
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <!-- Loading State -->
+                        <div id="suppliersLoading" class="text-center py-4 hidden">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                          <p class="mt-2">Loading suppliers...</p>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div id="suppliersPagination" class="mt-4">
+                          <!-- Pagination will be rendered here -->
+                        </div>
+                      </div>
+
+                      <!-- Supplier Form Container -->
+                      <div id="supplierFormContainer" class="hidden">
+                        <div class="card">
+                          <div class="card-header">
+                            <h3 id="supplierFormTitle">Add New Supplier</h3>
+                            <div class="d-flex gap-2">
+                              <button type="button" class="btn btn-outline-secondary btn-sm" id="backToListBtn">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                              </button>
+                              <button type="button" class="btn btn-outline-danger btn-sm" id="cancelEditBtn">
+                                <i class="fas fa-times"></i> Cancel
+                              </button>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <form id="supplierForm">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <h5 class="mb-3">Basic Information</h5>
+                                  <div class="mb-3">
+                                    <label for="name" class="form-label">Company Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="contactPerson" class="form-label">Contact Person *</label>
+                                    <input type="text" class="form-control" id="contactPerson" name="contactPerson" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone *</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <h5 class="mb-3">Business Details</h5>
+                                  <div class="mb-3">
+                                    <label for="businessType" class="form-label">Business Type *</label>
+                                    <select class="form-select" id="businessType" name="businessType" required>
+                                      <option value="">Select Business Type</option>
+                                      <option value="Seed Supplier">Seed Supplier</option>
+                                      <option value="Fertilizer Supplier">Fertilizer Supplier</option>
+                                      <option value="Equipment Supplier">Equipment Supplier</option>
+                                      <option value="Chemical Supplier">Chemical Supplier</option>
+                                      <option value="General Supplier">General Supplier</option>
+                                      <option value="Other">Other</option>
+                                    </select>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="paymentTerms" class="form-label">Payment Terms</label>
+                                    <select class="form-select" id="paymentTerms" name="paymentTerms">
+                                      <option value="Net 30">Net 30</option>
+                                      <option value="Net 60">Net 60</option>
+                                      <option value="Net 90">Net 90</option>
+                                      <option value="Cash on Delivery">Cash on Delivery</option>
+                                      <option value="Advance Payment">Advance Payment</option>
+                                    </select>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="creditLimit" class="form-label">Credit Limit ($)</label>
+                                    <input type="number" class="form-control" id="creditLimit" name="creditLimit" min="0" step="0.01">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="rating" class="form-label">Rating</label>
+                                    <select class="form-select" id="rating" name="rating">
+                                      <option value="1">1 Star</option>
+                                      <option value="2">2 Stars</option>
+                                      <option value="3" selected>3 Stars</option>
+                                      <option value="4">4 Stars</option>
+                                      <option value="5">5 Stars</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-12">
+                                  <h5 class="mb-3">Address Information</h5>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="addressStreet" class="form-label">Street Address *</label>
+                                    <input type="text" class="form-control" id="addressStreet" name="addressStreet" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="addressCity" class="form-label">City *</label>
+                                    <input type="text" class="form-control" id="addressCity" name="addressCity" required>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="addressState" class="form-label">State/Province *</label>
+                                    <input type="text" class="form-control" id="addressState" name="addressState" required>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="mb-3">
+                                        <label for="addressZipCode" class="form-label">Zip Code *</label>
+                                        <input type="text" class="form-control" id="addressZipCode" name="addressZipCode" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="mb-3">
+                                        <label for="addressCountry" class="form-label">Country *</label>
+                                        <input type="text" class="form-control" id="addressCountry" name="addressCountry" value="USA" required>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-12">
+                                  <h5 class="mb-3">Additional Information</h5>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="mb-3">
+                                    <label for="notes" class="form-label">Notes</label>
+                                    <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Any additional notes about this supplier..."></textarea>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="mb-3">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" id="isActive" name="isActive" checked>
+                                      <label class="form-check-label" for="isActive">
+                                        Active Supplier
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-actions">
+                                <button type="submit" id="supplierSubmitBtn" class="btn btn-primary">
+                                  <i class="fas fa-plus"></i> Add Supplier
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="cancelSupplierBtn">
+                                  Cancel
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="inventory" class="dashboard-section hidden">
+                      <div class="section-header">
+                        <h2><i class="fas fa-boxes"></i> Inventory Management</h2>
+                        <p>Manage your farm inventory, track stock levels, and monitor pricing</p>
+                      </div>
+
+                      <!-- Inventory Table Container -->
+                      <div id="inventoryTableContainer">
+                        <!-- Stats Cards -->
+                        <div class="row mb-4">
+                          <div class="col-md-3">
+                            <div class="stat-card">
+                              <div class="stat-icon bg-primary">
+                                <i class="fas fa-boxes"></i>
+                              </div>
+                              <div class="stat-content">
+                                <h3 id="inventoryCount">0</h3>
+                                <p>Total Items</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="stat-card">
+                              <div class="stat-icon bg-success">
+                                <i class="fas fa-check-circle"></i>
+                              </div>
+                              <div class="stat-content">
+                                <h3 id="activeInventoryCount">0</h3>
+                                <p>In Stock</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="stat-card">
+                              <div class="stat-icon bg-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                              </div>
+                              <div class="stat-content">
+                                <h3 id="lowStockCount">0</h3>
+                                <p>Low Stock</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="stat-card">
+                              <div class="stat-icon bg-danger">
+                                <i class="fas fa-times-circle"></i>
+                              </div>
+                              <div class="stat-content">
+                                <h3 id="outOfStockCount">0</h3>
+                                <p>Out of Stock</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Search and Filter Bar -->
+                        <div class="search-filter-bar mb-4">
+                          <div class="row align-items-center">
+                            <div class="col-md-3">
+                              <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="inventorySearch" placeholder="Search items..." class="form-control">
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <select id="categoryFilter" class="form-select">
+                                <option value="">All Categories</option>
+                                <option value="Seeds">Seeds</option>
+                                <option value="Fertilizers">Fertilizers</option>
+                                <option value="Pesticides">Pesticides</option>
+                                <option value="Equipment">Equipment</option>
+                                <option value="Tools">Tools</option>
+                                <option value="Machinery Parts">Machinery Parts</option>
+                                <option value="Irrigation">Irrigation</option>
+                                <option value="Packaging">Packaging</option>
+                                <option value="Other">Other</option>
+                              </select>
+                            </div>
+                            <div class="col-md-2">
+                              <select id="stockStatusFilter" class="form-select">
+                                <option value="">All Stock Status</option>
+                                <option value="normal">Normal</option>
+                                <option value="low-stock">Low Stock</option>
+                                <option value="out-of-stock">Out of Stock</option>
+                                <option value="overstocked">Overstocked</option>
+                              </select>
+                            </div>
+                            <div class="col-md-3">
+                              <button id="addInventoryBtn" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Add Inventory Item
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Inventory Table -->
+                        <div class="table-responsive">
+                          <table class="table table-hover">
+                            <thead class="table-light">
+                              <tr>
+                                <th>Item</th>
+                                <th>Category</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Cost Price</th>
+                                <th>Selling Price</th>
+                                <th>Profit Margin</th>
+                                <th>Supplier</th>
+                                <th>Expiry Date</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                              <!-- Inventory items will be loaded here -->
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <!-- Loading State -->
+                        <div id="inventoryLoading" class="text-center py-4 hidden">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                          <p class="mt-2">Loading inventory...</p>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div id="inventoryPagination" class="mt-4">
+                          <!-- Pagination will be rendered here -->
+                        </div>
+                      </div>
+
+                      <!-- Inventory Form Container -->
+                      <div id="inventoryFormContainer" class="hidden">
+                        <div class="card">
+                          <div class="card-header">
+                            <h3 id="inventoryFormTitle">Add New Inventory Item</h3>
+                            <div class="d-flex gap-2">
+                              <button type="button" class="btn btn-outline-secondary btn-sm" id="backToInventoryListBtn">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                              </button>
+                              <button type="button" class="btn btn-outline-danger btn-sm" id="cancelInventoryEditBtn">
+                                <i class="fas fa-times"></i> Cancel
+                              </button>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <form id="inventoryForm">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <h5 class="mb-3">Basic Information</h5>
+                                  <div class="mb-3">
+                                    <label for="name" class="form-label">Item Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="sku" class="form-label">SKU</label>
+                                    <input type="text" class="form-control" id="sku" name="sku" placeholder="Auto-generated if left empty">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="category" class="form-label">Category *</label>
+                                    <select class="form-select" id="category" name="category" required>
+                                      <option value="">Select Category</option>
+                                      <option value="Seeds">Seeds</option>
+                                      <option value="Fertilizers">Fertilizers</option>
+                                      <option value="Pesticides">Pesticides</option>
+                                      <option value="Equipment">Equipment</option>
+                                      <option value="Tools">Tools</option>
+                                      <option value="Machinery Parts">Machinery Parts</option>
+                                      <option value="Irrigation">Irrigation</option>
+                                      <option value="Packaging">Packaging</option>
+                                      <option value="Other">Other</option>
+                                    </select>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="subcategory" class="form-label">Subcategory</label>
+                                    <input type="text" class="form-control" id="subcategory" name="subcategory">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <h5 class="mb-3">Stock & Pricing</h5>
+                                  <div class="mb-3">
+                                    <label for="unit" class="form-label">Unit *</label>
+                                    <select class="form-select" id="unit" name="unit" required>
+                                      <option value="">Select Unit</option>
+                                      <option value="kg">Kilograms (kg)</option>
+                                      <option value="lbs">Pounds (lbs)</option>
+                                      <option value="pieces">Pieces</option>
+                                      <option value="liters">Liters</option>
+                                      <option value="gallons">Gallons</option>
+                                      <option value="bags">Bags</option>
+                                      <option value="boxes">Boxes</option>
+                                      <option value="units">Units</option>
+                                    </select>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="currentStock" class="form-label">Current Stock *</label>
+                                    <input type="number" class="form-control" id="currentStock" name="currentStock" min="0" step="0.01" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="minimumStock" class="form-label">Minimum Stock</label>
+                                    <input type="number" class="form-control" id="minimumStock" name="minimumStock" min="0" step="0.01">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="maximumStock" class="form-label">Maximum Stock</label>
+                                    <input type="number" class="form-control" id="maximumStock" name="maximumStock" min="0" step="0.01">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="costPrice" class="form-label">Cost Price ($) *</label>
+                                    <input type="number" class="form-control" id="costPrice" name="costPrice" min="0" step="0.01" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="sellingPrice" class="form-label">Selling Price ($) *</label>
+                                    <input type="number" class="form-control" id="sellingPrice" name="sellingPrice" min="0" step="0.01" required>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <h5 class="mb-3">Supplier & Location</h5>
+                                  <div class="mb-3">
+                                    <label for="supplier" class="form-label">Supplier</label>
+                                    <select class="form-select" id="supplier" name="supplier">
+                                      <option value="">Select Supplier</option>
+                                      <!-- Suppliers will be loaded dynamically -->
+                                    </select>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="warehouse" class="form-label">Warehouse</label>
+                                    <input type="text" class="form-control" id="warehouse" name="warehouse">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="shelf" class="form-label">Shelf</label>
+                                    <input type="text" class="form-control" id="shelf" name="shelf">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="bin" class="form-label">Bin</label>
+                                    <input type="text" class="form-control" id="bin" name="bin">
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <h5 class="mb-3">Additional Information</h5>
+                                  <div class="mb-3">
+                                    <label for="expiryDate" class="form-label">Expiry Date</label>
+                                    <input type="date" class="form-control" id="expiryDate" name="expiryDate">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="batchNumber" class="form-label">Batch Number</label>
+                                    <input type="text" class="form-control" id="batchNumber" name="batchNumber">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="notes" class="form-label">Notes</label>
+                                    <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                                  </div>
+                                  <div class="mb-3">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" id="isActive" name="isActive" checked>
+                                      <label class="form-check-label" for="isActive">
+                                        Active Item
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-actions">
+                                <button type="submit" id="inventorySubmitBtn" class="btn btn-primary">
+                                  <i class="fas fa-plus"></i> Add Item
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="cancelInventoryBtn">
+                                  Cancel
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Stock Update Modal -->
+                    <div id="stockUpdateModal" class="modal hidden">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4>Update Stock Levels</h4>
+                          <button type="button" class="btn-close" onclick="inventoryManager.hideStockUpdateModal()">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="stockUpdateForm">
+                            <div class="mb-3">
+                              <label for="stockUpdateCurrentStock" class="form-label">Current Stock *</label>
+                              <input type="number" class="form-control" id="stockUpdateCurrentStock" name="currentStock" min="0" step="0.01" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="stockUpdateMinimumStock" class="form-label">Minimum Stock</label>
+                              <input type="number" class="form-control" id="stockUpdateMinimumStock" name="minimumStock" min="0" step="0.01">
+                            </div>
+                            <div class="mb-3">
+                              <label for="stockUpdateMaximumStock" class="form-label">Maximum Stock</label>
+                              <input type="number" class="form-control" id="stockUpdateMaximumStock" name="maximumStock" min="0" step="0.01">
+                            </div>
+                            <div class="form-actions">
+                              <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Update Stock
+                              </button>
+                              <button type="button" class="btn btn-secondary" onclick="inventoryManager.hideStockUpdateModal()">
+                                Cancel
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="pricing" class="dashboard-section hidden">
+                        <div class="section-header">
+                            <h2><i class="fas fa-tags"></i> Pricing Management</h2>
+                            <p>Pricing management interface coming soon...</p>
+                        </div>
+                    </div>
+
+                    <div id="invoices" class="dashboard-section hidden">
+                        <div class="section-header">
+                            <h2><i class="fas fa-file-invoice"></i> Invoice Management</h2>
+                            <p>Invoice management interface coming soon...</p>
+                        </div>
+                    </div>
+
+                    <div id="orders" class="dashboard-section hidden">
+                        <div class="section-header">
+                            <h2><i class="fas fa-shopping-cart"></i> Order Management</h2>
+                            <p>Order management interface coming soon...</p>
+                        </div>
+                    </div>
+
+                    <div id="stock" class="dashboard-section hidden">
+                        <div class="section-header">
+                            <h2><i class="fas fa-warehouse"></i> Stock Management</h2>
+                            <p>Stock management interface coming soon...</p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/suppliers.js"></script>
+    <script src="js/inventory.js"></script>
+</body>
+</html>
